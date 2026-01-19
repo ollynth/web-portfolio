@@ -4,53 +4,67 @@ import { Send, Github, Linkedin, Mail, Loader2, CheckCircle } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import emailjs from '@emailjs/browser';
+
+const github = import.meta.env.VITE_GITHUB_LINK;
+const linkedin = import.meta.env.VITE_LINKEDIN_LINK;
+const email = import.meta.env.VITE_EMAIL;
 
 const socialLinks = [
   { 
     name: 'GitHub', 
     icon: Github, 
-    url: 'https://github.com', 
+    url: github, 
     color: 'bg-gray-800 text-white',
     hoverBg: 'hover:bg-gray-700'
   },
   { 
     name: 'LinkedIn', 
     icon: Linkedin, 
-    url: 'https://linkedin.com', 
+    url: linkedin, 
     color: 'bg-blue-600 text-white',
     hoverBg: 'hover:bg-blue-500'
   },
   { 
     name: 'Email', 
     icon: Mail, 
-    url: 'mailto:hello@johndoe.dev', 
+    url: `mailto:${email}`, 
     color: 'bg-purple-500 text-white',
     hoverBg: 'hover:bg-purple-400'
   },
 ];
 
+const SERVICE_ID = import.meta.env.VITE_SERVICE_ID;
+const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID;
+const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_KEY;
+
 export default function ContactSection() {
-  const [formData, setFormData] = useState({ email: '', message: '' });
+  const [formData, setFormData] = useState({sender_name: '', sender_email: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
-
+  const templateParams = {
+    name: formData.sender_name,
+    email: formData.sender_email, // or reply_to if that’s what your template uses
+    message: formData.message,
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.message) return;
-
+    if (!formData.sender_email || !formData.message) return;
     setIsLoading(true);
-    
-    // await SendEmail({
-    //   to: 'hello@johndoe.dev',
-    //   subject: `Portfolio Contact from ${formData.email}`,
-    //   body: `From: ${formData.email}\n\nMessage:\n${formData.message}`
-    // });
-    
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+      .then((response) =>{
+        console.log(formData);
+        console.log('SUCCESSFULLY SENT MESSAGE!', response.status, response.text);
+        setIsSent(true);
+        setFormData({ sender_name: '', sender_email: '', message: '' });
+      })
+      .catch((error) => {
+        console.log('FAILED SENDING MESSAGE...', error);
+      })
+      
+    setIsSent(false);
     setIsLoading(false);
-    setIsSent(true);
-    setFormData({ email: '', message: '' });
-    
-    setTimeout(() => setIsSent(false), 5000);
   };
 
   return (
@@ -65,7 +79,7 @@ export default function ContactSection() {
           <div className="inline-flex items-center gap-2 bg-green-400 text-white px-4 py-2 font-mono text-sm border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
             <span className="text-yellow-300">@</span> contact.jsx
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
             Let's <span className="bg-green-200 px-3 border-2 border-black font-mono text-black">Connect</span>
           </h2>
           <p className="text-gray-600 mt-3 text-lg max-w-2xl">
@@ -88,12 +102,24 @@ export default function ContactSection() {
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
+                <label className="block text-sm font-bold mb-2 text-black">Your Name</label>
+                <Input
+                  type="text"
+                  placeholder="Jhon Doe"
+                  value={formData.sender_name}
+                  onChange={(e) => setFormData({ ...formData, sender_name: e.target.value })}
+                  className="text-gray-800 border-3 border-black rounded-none shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all bg-white"
+                  required
+                />
+              </div>
+
+              <div>
                 <label className="block text-sm font-bold mb-2 text-black">Your Email</label>
                 <Input
                   type="email"
                   placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  value={formData.sender_email}
+                  onChange={(e) => setFormData({ ...formData, sender_email: e.target.value })}
                   className="text-gray-800 border-3 border-black rounded-none shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all bg-white"
                   required
                 />
@@ -114,7 +140,7 @@ export default function ContactSection() {
               <Button
                 type="submit"
                 disabled={isLoading || isSent}
-                className={`w-full py-6 text-lg font-bold border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all rounded-none ${
+                className={`w-full py-6 text-lg font-bold text-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all rounded-none ${
                   isSent 
                     ? 'bg-green-500 hover:bg-green-500' 
                     : 'bg-purple-600 hover:bg-purple-600'

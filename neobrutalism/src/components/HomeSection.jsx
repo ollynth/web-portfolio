@@ -46,7 +46,7 @@ export default function HomeSection({ onNavigate }) {
             </span>
           </div>
           
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
             I'm{' '}
             <span className="bg-purple-400 text-white px-3 sm:px-4 py-1 border-3 sm:border-4 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] inline-block transform -rotate-1">
               Ollynth
