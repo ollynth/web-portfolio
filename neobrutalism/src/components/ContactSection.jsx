@@ -24,14 +24,7 @@ const socialLinks = [
     url: linkedin, 
     color: 'bg-blue-600 text-white',
     hoverBg: 'hover:bg-blue-500'
-  },
-  { 
-    name: 'Email', 
-    icon: Mail, 
-    url: `mailto:${email}`, 
-    color: 'bg-purple-500 text-white',
-    hoverBg: 'hover:bg-purple-400'
-  },
+  }
 ];
 
 const SERVICE_ID = import.meta.env.VITE_SERVICE_ID;
