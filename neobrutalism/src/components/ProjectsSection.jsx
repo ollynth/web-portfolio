@@ -5,6 +5,7 @@ import GrowthGuard from '@/assets/GG-dashboard.png';
 import Corewallet from '@/assets/Corewallet-dashboard.png';
 import Pomodoro from '@/assets/Pomodoro-dashboard.png';
 import campusDB from '@/assets/campus_db.png';
+import valentineLetter from '@/assets/final-page_lfk.png';
 
 const projects = [
   {
@@ -13,7 +14,7 @@ const projects = [
     image: GrowthGuard,
     tech: ['C++', 'React', 'Node.js', 'Influx Cloud'],
     github: 'https://github.com/ollynth/GrowthGuard',
-    live: 'https://example.com'
+    live: null
   },
   {
     name: 'CoreWallet',
@@ -29,7 +30,7 @@ const projects = [
     image: campusDB,
     tech: ['Python', 'FAST API', 'ReactTS', 'TailwindCSS', 'Hyperledger Indy', 'Hyperledger Aries'],
     github: null,
-    live: 'https://example.com'
+    live: null
   },
   {
     name: 'Hooma',
@@ -37,7 +38,7 @@ const projects = [
     image: '',
     tech: ['ReactJS', 'MongoDB', 'REST API', 'JavaScript'],
     github: 'https://github.com/ollynth',
-    live: 'https://example.com'
+    live: null
   },
   {
     name: 'Pomodoro Timer',
@@ -46,6 +47,14 @@ const projects = [
     tech: ['ElectronJS'],
     github: 'https://github.com/ollynth/pomodoro-timer',
     live: null
+  },
+  {
+    name: 'Valentine Letter From Kahu',
+    description: 'An interactive web based valentine letter.',
+    image: valentineLetter,
+    tech: ['ReactJS', 'JavaScript'],
+    github: 'https://github.com/ollynth/letter-from_kahu',
+    live: 'https://ollynth.github.io/letter-from_kahu/'
   }
 ];
 
